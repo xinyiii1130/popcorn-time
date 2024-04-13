@@ -11,3 +11,7 @@ export const getMovies = async (query: MovieQuery) => {
         params: query,
     });
 };
+
+export const getMovieById = async (movieId: number) => {
+    return axiosInstance.get<Movie>(`/api/movie/${movieId}`);
+};

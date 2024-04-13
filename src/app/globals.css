@@ -13,3 +13,16 @@
 .ant-pagination-options {
     margin-inline-start: 12px !important;
 }
+
+.ant-descriptions-item-label {
+    padding: 8px 12px !important;
+    font-weight: 700 !important;
+}
+
+.ant-descriptions-item-content {
+    padding: 8px 12px !important;
+}
+
+.ant-space-gap-col-small {
+    column-gap: 0px !important;
+}

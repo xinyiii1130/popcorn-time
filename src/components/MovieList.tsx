@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Pagination, Spin } from 'antd';
 import { defaultSortOption } from '@/data/sortingOptions';
+import { useSingleMovieContext } from '@/providers/SingleMovieContext';
 import { getMovies } from '@/services/movie';
 import { RatingObject } from '@/types/rating';
 import { SortBy } from '@/types/sortBy';
@@ -13,6 +14,8 @@ const MovieList: React.FC = () => {
     const [rating, setRating] = useState<number[]>([0, 10]);
     const [page, setPage] = useState<number>(1);
 
+    const { setOpen, setMovieId } = useSingleMovieContext();
+
     const { data, isFetching } = useQuery({
         queryKey: ['movie', 'list', genre, page, sortBy, rating],
         queryFn: async () => {
@@ -22,7 +25,7 @@ const MovieList: React.FC = () => {
             };
 
             const res = await getMovies({ page, genre, sortBy, rate });
-            console.log(res.data);
+
             return res.data;
         },
     });
@@ -36,7 +39,14 @@ const MovieList: React.FC = () => {
                 <Spin spinning={isFetching}>
                     <div className="grid grid-cols-1 grid-flow-row gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 justify-center items-center">
                         {data?.results.map((movie) => (
-                            <div key={movie.id} className="w-auto h-auto flex justify-center rounded-xl">
+                            <div
+                                key={movie.id}
+                                className="w-auto h-auto flex justify-center rounded-xl"
+                                onClick={() => {
+                                    setOpen(true);
+                                    setMovieId(movie.id);
+                                }}
+                            >
                                 {/* When hover image, image blurred lower part, a div with information slide up from bottom */}
                                 <div className="relative w-full h-full group overflow-hidden">
                                     <img
