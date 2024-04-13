@@ -22,7 +22,7 @@ export const SingleMovieProvider: React.FC<SingleMovieProviderProps> = ({ childr
         enabled: !!movieId && open,
         queryFn: async () => {
             const res = await getMovieById(movieId as number);
-            console.log(res.data);
+
             return res.data;
         },
     });
