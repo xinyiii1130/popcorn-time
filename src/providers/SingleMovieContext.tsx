@@ -31,12 +31,12 @@ export const SingleMovieProvider: React.FC<SingleMovieProviderProps> = ({ childr
         {
             key: 'overview',
             label: 'Overview',
-            children: data?.overview && data.overview.trim() === '' ? '-' : data?.overview,
+            children: data?.overview.trim() === '' ? '-' : data?.overview,
         },
         {
             key: 'release_date',
             label: 'Release Date',
-            children: data?.release_date && data.release_date.trim() === '' ? '-' : data?.release_date,
+            children: data?.release_date.trim() === '' ? '-' : data?.release_date,
         },
         {
             key: 'genre',
