@@ -1,12 +1,9 @@
 'use client';
 
 import { Suspense } from 'react';
-// import ReactLenis from '@studio-freight/react-lenis';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ConfigProvider, ConfigProviderProps } from 'antd';
 import { gothamFont } from '@/config/font';
-
-// import { MoviesProvider } from '@/context/MovieContext';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -28,15 +25,10 @@ const antDesignGlobalConfig: ConfigProviderProps = {
 
 export default function Providers({ children }: { children: React.ReactNode }) {
     return (
-        // <ReactLenis root>
         <QueryClientProvider client={queryClient}>
             <ConfigProvider {...antDesignGlobalConfig}>
-                <Suspense>
-                    {children}
-                    {/* <MoviesProvider>{children}</MoviesProvider> */}
-                </Suspense>
+                <Suspense>{children}</Suspense>
             </ConfigProvider>
         </QueryClientProvider>
-        // </ReactLenis>
     );
 }

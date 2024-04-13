@@ -1,37 +1,37 @@
-import { useQuery } from '@tanstack/react-query';
-import { getAllMovieGenres } from '@/services/genre';
+import { Dispatch, SetStateAction } from 'react';
+import { Button } from 'antd';
+import { SortBy } from '@/types/sortBy';
+import Genre from './filter/Genre';
+import Rating from './filter/Rating';
+import SortByFilter from './filter/SortBy';
 
 interface FilterProps {
     genre: number | undefined;
-    setGenre: (genre: number | undefined) => void;
+    setGenre: Dispatch<SetStateAction<number | undefined>>;
+    sortBy: SortBy;
+    setSortBy: Dispatch<SetStateAction<SortBy>>;
+    rating: number[];
+    setRating: Dispatch<SetStateAction<number[]>>;
 }
 
-const Filter: React.FC<FilterProps> = ({ genre, setGenre }) => {
-    const { data } = useQuery({
-        queryKey: ['genre', 'movie'],
-        queryFn: async () => {
-            const res = await getAllMovieGenres();
-            return res.data.genres;
-        },
-    });
-
+const Filter: React.FC<FilterProps> = ({ genre, setGenre, sortBy, setSortBy, rating, setRating }) => {
     return (
         <div className="bg-slate-100 rounded-md p-6">
-            <h1 className="mb-2 text-xl font-bold">Genre</h1>
-            <div className="flex flex-row flex-wrap gap-x-4 gap-y-3 text-sm font-semibold">
-                {data?.map((mapGenre) => (
-                    <div
-                        key={`movieList-${mapGenre.id}`}
-                        className={`bg-slate-200 py-2 px-6 rounded-md cursor-pointer hover:bg-yellow-300 transition-colors ${
-                            mapGenre.id === genre ? 'bg-yellow-300' : ''
-                        }`}
-                        onClick={() => {
-                            setGenre(mapGenre.id === genre ? undefined : mapGenre.id);
-                        }}
-                    >
-                        {mapGenre.name}
-                    </div>
-                ))}
+            <Genre genre={genre} setGenre={setGenre} />
+            <Rating rating={rating} setRating={setRating} />
+            <SortByFilter sortBy={sortBy} setSortBy={setSortBy} />
+            <div className="mt-4 flex justify-end">
+                <Button
+                    type="primary"
+                    className="bg-yellow-300 hover:!bg-yellow-200 !text-black font-bold"
+                    onClick={() => {
+                        setGenre(undefined);
+                        setSortBy({ value: 'popularity.desc', order: 'desc', label: 'Popularity' });
+                        setRating([0, 10]);
+                    }}
+                >
+                    Clear Filter
+                </Button>
             </div>
         </div>
     );

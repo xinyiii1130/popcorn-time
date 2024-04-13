@@ -3,11 +3,11 @@ export async function GET(request: Request) {
 
     const page = searchParams.get('page');
     const genre = searchParams.get('genre');
+    const sortByValue = searchParams.get('sortBy[value]');
+    const minRate = searchParams.get('rate[from]');
+    const maxRate = searchParams.get('rate[to]');
 
-    console.log('page', page);
-    console.log('genre', genre);
-
-    if (!page) {
+    if (!page || !sortByValue) {
         return Response.error();
     }
 
@@ -22,15 +22,19 @@ export async function GET(request: Request) {
         },
     };
 
-    const res1 = await fetch(
-        `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${apiFirstPage}${genre ? `&with_genres=${genre}` : ''}`,
-        options,
-    );
+    // Fetch only movie release date in future one month and back 30 years from now
+    const futureDate = new Date();
+    futureDate.setDate(futureDate.getDate() + 5);
+    const pastDate = new Date();
+    pastDate.setFullYear(pastDate.getFullYear() - 30);
 
-    const res2 = await fetch(
-        `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${apiSecondPage}${genre ? `&with_genres=${genre}` : ''}`,
-        options,
-    );
+    const maxDate = futureDate.toISOString().split('T')[0];
+    const minDate = pastDate.toISOString().split('T')[0];
+
+    const url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&primary_release_date.gte=${minDate}&primary_release_date.lte=${maxDate}&vote_average.gte=${minRate}&vote_average.lte=${maxRate}${genre ? `&with_genres=${genre}` : ''}${sortByValue ? `&sort_by=${sortByValue}` : ''}`;
+
+    const res1 = await fetch(url + `&page=${apiFirstPage}`, options);
+    const res2 = await fetch(url + `&page=${apiSecondPage}`, options);
 
     const data1 = await res1.json();
     const data2 = await res2.json();

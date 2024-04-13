@@ -12,25 +12,10 @@ export const gothamFont = localFont({
             weight: '300',
             style: 'normal',
         },
-        // {
-        // 	path: '../fonts/PPNeueMontreal-Italic.woff2',
-        // 	weight: '400',
-        // 	style: 'italic',
-        // },
-        // {
-        // 	path: '../fonts/PPNeueMontreal-Medium.woff2',
-        // 	weight: '500',
-        // 	style: 'normal',
-        // },
         {
             path: '../fonts/Gotham-BoldItalic.otf',
             weight: '700',
             style: 'italic',
         },
-        // {
-        // 	path: '../fonts/PPNeueMontreal-Thin.woff2',
-        // 	weight: '200',
-        // 	style: 'normal',
-        // },
     ],
 });

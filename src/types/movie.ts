@@ -1,3 +1,6 @@
+import { RatingObject } from './rating';
+import { SortBy } from './sortBy';
+
 export interface Movie {
     id: number;
     title: string;
@@ -10,4 +13,6 @@ export interface Movie {
 export interface MovieQuery {
     page: number;
     genre?: number;
+    sortBy?: SortBy;
+    rate?: RatingObject;
 }
