@@ -31,39 +31,43 @@ export const SingleMovieProvider: React.FC<SingleMovieProviderProps> = ({ childr
         {
             key: 'overview',
             label: 'Overview',
-            children: data?.overview,
+            children: data?.overview ?? '-',
         },
         {
             key: 'release_date',
             label: 'Release Date',
-            children: data?.release_date,
+            children: data?.release_date ?? '-',
         },
         {
             key: 'genre',
             label: 'Genre',
             children: (
                 <Space className="flex flex-wrap">
-                    {data?.genres.map((genre) => (
-                        <Tag key={genre.id} color="blue">
-                            {genre.name}
-                        </Tag>
-                    ))}
+                    {data?.genres
+                        ? data.genres.map((genre) => (
+                              <Tag key={genre.id} color="blue">
+                                  {genre.name}
+                              </Tag>
+                          ))
+                        : '-'}
                 </Space>
             ),
         },
         {
             key: 'vote_average',
             label: 'Rating',
-            children: data?.vote_average,
+            children: data?.vote_average ?? '-',
         },
         {
             key: 'casting',
             label: 'Casting',
-            children: data?.credits.cast.slice(0, 5).map((cast) => (
-                <div key={cast.id}>
-                    {cast.name} ({cast.character})
-                </div>
-            )),
+            children: data?.credits.cast
+                ? data?.credits.cast.slice(0, 5).map((cast) => (
+                      <div key={cast.id}>
+                          {cast.name} ({cast.character})
+                      </div>
+                  ))
+                : '-',
         },
     ];
 
